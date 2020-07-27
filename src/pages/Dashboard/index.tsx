@@ -48,7 +48,6 @@ const Dashboard: React.FC = () => {
   async function handleUpdateFood(
     food: Omit<IFoodPlate, 'id' | 'available'>,
   ): Promise<void> {
-    console.log(food);
     try {
       const foodData = {
         id: editingFood.id,
@@ -76,7 +75,6 @@ const Dashboard: React.FC = () => {
   }
 
   function toggleModal(): void {
-    console.log('toggleModal');
     setModalOpen(!modalOpen);
   }
 
