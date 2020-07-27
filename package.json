@@ -50,7 +50,8 @@
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start-fake-api": "json-server -p 3333 --watch server.json"
   },
   "eslintConfig": {
     "extends": "react-app"
