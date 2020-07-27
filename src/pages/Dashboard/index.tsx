@@ -22,14 +22,13 @@ interface IFoodPlate {
 const Dashboard: React.FC = () => {
   const [foods, setFoods] = useState<IFoodPlate[]>([]);
   const [editingFood, setEditingFood] = useState<IFoodPlate>({} as IFoodPlate);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false); // Trocar nome para addModalOpen
   const [editModalOpen, setEditModalOpen] = useState(false);
 
   useEffect(() => {
     async function loadFoods(): Promise<void> {
       const response = await api.get('/foods');
       setFoods(response.data);
-      console.log('response');
     }
 
     loadFoods();
@@ -39,7 +38,9 @@ const Dashboard: React.FC = () => {
     food: Omit<IFoodPlate, 'id' | 'available'>,
   ): Promise<void> {
     try {
-      // TODO ADD A NEW FOOD PLATE TO THE API
+      const response = await api.post('/foods', food);
+      const updatedFoods = [...foods, response.data];
+      setFoods(updatedFoods);
     } catch (err) {
       console.log(err);
     }
@@ -48,22 +49,21 @@ const Dashboard: React.FC = () => {
   async function handleUpdateFood(
     food: Omit<IFoodPlate, 'id' | 'available'>,
   ): Promise<void> {
-    // TODO UPDATE A FOOD PLATE ON THE API
+    try {
+      // await api.put(`/foods/${id}`, food);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   async function handleDeleteFood(id: number): Promise<void> {
-    // TODO DELETE A FOOD PLATE FROM THE API
-    async function deleteFood(id: number): Promise<void> {
+    try {
       await api.delete(`/foods/${id}`);
+      const updateFoods = foods.filter(f => f.id !== id);
+      setFoods(updateFoods);
+    } catch (err) {
+      console.log(err);
     }
-    deleteFood(id)
-      .then(() => {
-        const updateFoods = foods.filter(f => f.id !== id);
-        setFoods(updateFoods);
-      })
-      .catch(() => {
-        console.log(`Erro deleting food: ${id}`);
-      });
   }
 
   function toggleModal(): void {
